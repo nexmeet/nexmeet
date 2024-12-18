@@ -57,6 +57,7 @@ export default {
       },
       fontFamily: {
         Anton: ['"Anton"', ...defaultTheme.fontFamily.serif],
+        SpaceGrotesk: ['"Space Grotesk"', ...defaultTheme.fontFamily.serif],
       },
     },
   },

@@ -1,11 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router";
+import Navbar from "./components/Navbar/Navbar";
 
 const App: React.FC = () => {
   return (
     <>
       <div className="dark">
-        {/* <h1>Header</h1> */}
+        <Navbar />
         <Outlet />
         {/* <h1>Footer</h1> */}
       </div>

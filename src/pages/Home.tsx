@@ -6,9 +6,8 @@ const Home: React.FC = () => {
     <>
       <div className="min-h-screen bg-[#FCFFDA] relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 pt-[5rem] relative z-10">
-          {/* Hero Section */}
           <div className="mb-20">
-            <h1 className="text-[7rem] font-Anton text-stroke-2 text-stroke-black">
+            <h1 className="text-[7rem] font-Anton font-normal text-stroke-2 text-stroke-black">
               <div className="flex items-center gap-2">
                 Host <span className="text-[#1e90ff]">modern events</span>
                 <div className="w-12 h-12 rounded-full bg-orange-500 rotate-[30deg]" />
@@ -18,7 +17,6 @@ const Home: React.FC = () => {
               </div>
             </h1>
 
-            {/* Action Buttons */}
             <div className="flex gap-4 mt-8">
               <Button variant="primary" className="px-6 py-[1.2rem]">
                 Host Event

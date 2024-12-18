@@ -7,6 +7,11 @@ import Home from "./pages/Home.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
 import Login from "./pages/Login.tsx";
 import DashBoard from "./pages/DashBoard.tsx";
+import Events from "./pages/Events.tsx";
+import Communities from "./pages/Communities.tsx";
+import AboutUs from "./pages/AboutUs.tsx";
+import ContactUs from "./pages/ContactUs.tsx";
+import Contributors from "./pages/Contributors.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -16,6 +21,11 @@ createRoot(document.getElementById("root")!).render(
           <Route path="" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/explore-events" element={<Events />} />
+          <Route path="/explore-communities" element={<Communities />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/contributors" element={<Contributors />} />
         </Route>
       </Routes>
       <Toaster />
