@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,42 +13,39 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "../../hooks/use-toast";
-import { supabase } from "@/supabase/supabase";
-import { emailSchema } from "../../schemas/loginSchema";
+import { useAuthStore } from "../../store/authStore";
 
-const LoginCom = () => {
+const signInSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+const SignInCom = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { signIn } = useAuthStore();
 
-  const form = useForm<z.infer<typeof emailSchema>>({
-    resolver: zodResolver(emailSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
+      password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof emailSchema>) {
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
     setIsLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: values.email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
+      await signIn(values.email, values.password);
+      form.reset();
       toast({
-        title: "Magic link sent",
-        description: "Check your email for the login link.",
+        title: "Success",
+        description: "You have been signed in.",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to send magic link. Please try again.",
+        description: "Invalid email or password. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -74,12 +69,25 @@ const LoginCom = () => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="••••••••" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send Magic Link"}
+          {isLoading ? "Signing in..." : "Sign In"}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default LoginCom;
+export default SignInCom;

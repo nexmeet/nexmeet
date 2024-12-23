@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import { Button } from "../ui/button";
+import { useAuthStore } from "@/store/authStore";
 
 const Navbar: React.FC = () => {
   const [isSticky, setIsSticky] = useState(false);
+  const { user } = useAuthStore();
 
   // Handle scroll event to toggle sticky background
   useEffect(() => {
@@ -21,16 +23,17 @@ const Navbar: React.FC = () => {
   const active = "bg-[#2281FF] p-2 rounded-full text-white";
   const inactive = "p-2 hover:bg-[#2281FF] hover:rounded-full hover:text-white";
 
+  console.log(user);
   return (
     <div
       className={`font-SpaceGrotesk font-bold w-full pt-8 pb-2 flex flex-row justify-around items-center transition-all duration-300
-      ${isSticky ? "bg-[#FCFFDA] shadow-md" : "bg-transparent"}`}
+      ${isSticky ? "bg-transparent z-50" : "bg-[#FCFFDA]"}`}
       style={{ position: "sticky", top: 0, zIndex: 50 }}
     >
       <div>
         <h1 className="text-xl">Logo</h1>
       </div>
-      <div className="flex flex-row justify-center items-center gap-4 border-2 p-2 rounded-full">
+      <div className="bg-[#FCFFDA] flex flex-row justify-center items-center gap-4 border-2 p-2 rounded-full">
         <NavLink
           to="/"
           className={({ isActive }) => (isActive ? active : inactive)}
@@ -68,9 +71,13 @@ const Navbar: React.FC = () => {
           Contributors
         </NavLink>
       </div>
-      <div>
+      <div className="flex flex-row gap-4">
         <Button variant="primary" className="p-4">
-          <Link to="/login">Login</Link>{" "}
+          <Link to="/signin">Sign In</Link>{" "}
+          <span className="text-xl font-bold">→</span>
+        </Button>
+        <Button variant="primary" className="p-4">
+          <Link to="/signup">Sign Up</Link>{" "}
           <span className="text-xl font-bold">→</span>
         </Button>
       </div>

@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <>
       <div className="min-h-screen bg-[#FCFFDA] relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 pt-[5rem] relative z-10">
+        <div className="max-w-6xl mx-auto px-4 pt-[4rem] relative z-10">
           <div className="mb-20">
             <h1 className="text-[7rem] font-Anton font-normal text-stroke-2 text-stroke-black">
               <div className="flex items-center gap-2">
@@ -50,6 +49,7 @@ const Home: React.FC = () => {
           />
         </div> */}
       </div>
+      <div className="w-full h-screen bg-red-300"></div>
     </>
   );
 };

@@ -1,16 +1,17 @@
 import React from "react";
 import { Outlet } from "react-router";
+import Navbar from "./components/Navbar/Navbar";
 
-const MainOutlet: React.FC = () => {
+const AppOutlet: React.FC = () => {
   return (
     <>
       <div className="dark">
-        {/* <h1>Header</h1> */}
+        <Navbar />
         <Outlet />
-        {/* <h1>Footer</h1> */}
+        <h1>Footer</h1>
       </div>
     </>
   );
 };
 
-export default MainOutlet;
+export default AppOutlet;

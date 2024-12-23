@@ -1,7 +1,9 @@
-import React from "react";
-
 const Communities = () => {
-  return <div>Communities</div>;
+  return (
+    <>
+      <div className="w-full h-screen bg-[#FCFFDA]">Communities</div>
+    </>
+  );
 };
 
 export default Communities;
