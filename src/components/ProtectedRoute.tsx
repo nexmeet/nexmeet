@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
 
@@ -7,19 +7,25 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { session, fetchSession } = useAuthStore();
+  const session = useAuthStore((state) => state.session);
+  const user = useAuthStore((state) => state.user);
+  const fetchSession = useAuthStore((state) => state.fetchSession);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkSession = async () => {
-      if (!session) {
-        await fetchSession();
-      }
+      await fetchSession();
+      setLoading(false);
     };
 
     checkSession();
-  }, [session, fetchSession]);
+  }, [fetchSession]);
 
-  if (!session) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!session || !user) {
     return <Navigate to="/signin" replace />;
   }
 

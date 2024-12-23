@@ -5,7 +5,12 @@ import { useAuthStore } from "@/store/authStore";
 
 const Navbar: React.FC = () => {
   const [isSticky, setIsSticky] = useState(false);
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const fetchSession = useAuthStore((state) => state.fetchSession);
+
+  useEffect(() => {
+    fetchSession();
+  }, [fetchSession]);
 
   // Handle scroll event to toggle sticky background
   useEffect(() => {
@@ -23,7 +28,6 @@ const Navbar: React.FC = () => {
   const active = "bg-[#2281FF] p-2 rounded-full text-white";
   const inactive = "p-2 hover:bg-[#2281FF] hover:rounded-full hover:text-white";
 
-  console.log(user);
   return (
     <div
       className={`font-SpaceGrotesk font-bold w-full pt-8 pb-2 flex flex-row justify-around items-center transition-all duration-300
@@ -72,14 +76,23 @@ const Navbar: React.FC = () => {
         </NavLink>
       </div>
       <div className="flex flex-row gap-4">
-        <Button variant="primary" className="p-4">
-          <Link to="/signin">Sign In</Link>{" "}
-          <span className="text-xl font-bold">→</span>
-        </Button>
-        <Button variant="primary" className="p-4">
-          <Link to="/signup">Sign Up</Link>{" "}
-          <span className="text-xl font-bold">→</span>
-        </Button>
+        {user ? (
+          <Button variant="primary" className="p-4">
+            <Link to="/profile">Profile</Link>{" "}
+            <span className="text-xl font-bold">→</span>
+          </Button>
+        ) : (
+          <>
+            <Button variant="primary" className="p-4">
+              <Link to="/signin">Sign In</Link>{" "}
+              <span className="text-xl font-bold">→</span>
+            </Button>
+            <Button variant="primary" className="p-4">
+              <Link to="/signup">Sign Up</Link>{" "}
+              <span className="text-xl font-bold">→</span>
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

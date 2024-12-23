@@ -13,11 +13,30 @@ interface AuthState {
   fetchSession: () => Promise<void>;
 }
 
+const saveToLocalStorage = (session: Session | null, user: User | null) => {
+  localStorage.setItem("session", JSON.stringify(session));
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+const loadFromLocalStorage = () => {
+  const session = localStorage.getItem("session");
+  const user = localStorage.getItem("user");
+  return {
+    session: session ? JSON.parse(session) : null,
+    user: user ? JSON.parse(user) : null,
+  };
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  session: null,
-  setUser: (user) => set({ user }),
-  setSession: (session) => set({ session }),
+  ...loadFromLocalStorage(),
+  setUser: (user) => {
+    set({ user });
+    saveToLocalStorage(useAuthStore.getState().session, user);
+  },
+  setSession: (session) => {
+    set({ session });
+    saveToLocalStorage(session, useAuthStore.getState().user);
+  },
 
   signUp: async (email, password) => {
     const { error } = await supabase.auth.signUp({
@@ -37,12 +56,14 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
     if (error) throw error;
     set({ session: data.session, user: data.session.user });
+    saveToLocalStorage(data.session, data.session.user);
   },
 
   logout: async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     set({ user: null, session: null });
+    saveToLocalStorage(null, null);
   },
 
   fetchSession: async () => {
@@ -50,6 +71,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (error) throw error;
     if (data.session) {
       set({ session: data.session, user: data.session.user });
+      saveToLocalStorage(data.session, data.session.user);
     }
   },
 }));
