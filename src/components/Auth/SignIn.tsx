@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "../../hooks/use-toast";
 import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -24,6 +25,7 @@ const SignInCom = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { signIn } = useAuthStore();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -42,6 +44,7 @@ const SignInCom = () => {
         title: "Success",
         description: "You have been signed in.",
       });
+      navigate("/profile");
     } catch (error) {
       toast({
         title: "Error",

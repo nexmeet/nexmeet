@@ -1,21 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Logout from "@/components/Logout/Logout";
 import { useAuthStore } from "../store/authStore";
 
 const Profile: React.FC = () => {
-  const { user, fetchSession } = useAuthStore();
-
-  // useEffect(() => {
-  //   const initializeSession = async () => {
-  //     try {
-  //       await fetchSession();
-  //     } catch (error) {
-  //       console.error("Failed to fetch session:", error);
-  //     }
-  //   };
-
-  //   initializeSession();
-  // }, [fetchSession]);
+  const { user } = useAuthStore();
 
   return (
     <>

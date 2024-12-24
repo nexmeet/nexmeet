@@ -43,7 +43,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       email,
       password,
       options: {
-        emailRedirectTo: "http://localhost:5173/profile",
+        emailRedirectTo: `${import.meta.env.VITE_BASE_URL}/profile`,
       },
     });
     if (error) throw error;
